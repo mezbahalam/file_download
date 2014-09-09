@@ -1,0 +1,39 @@
+<% if !flash[:notice].blank? %>
+    <div class="alert alert-info">
+      <%= flash[:notice] %>
+    </div>
+<% end %>
+<% if admin_signed_in? %>
+    <%= link_to "All Users", all_users_addfiles_path, class: "btn btn-primary" %>
+<% end %>
+<br /><br /><br />
+<%= link_to "New File", new_addfile_path, class: "btn btn-primary" %>
+<br />
+<br />
+<table class="table table-bordered table-striped">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Download Link</th>
+    <th>&nbsp;</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @addfiles.each do |file| %>
+      <tr>
+        <td><%= file.name %></td>
+
+        <td><%= link_to "Download File", file.attachment_url, class: "btn btn-primary" %></td>
+        <% if admin_signed_in? || current_user?(file.user) %>
+            <td>
+              <%= button_to('Delete', file,
+                            method:  :delete,
+                            class:   'btn btn-danger',
+                            confirm: "Are you sure that you wish to delete #{file.name}?") %>
+            </td>
+        <% end %>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+

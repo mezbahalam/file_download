@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FileDownload</title>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<div>
+  <% unless admin_signed_in?  %>
+      <%=
+          link_to_if(current_user.nil?, "Sign in as user", new_user_session_path, class: "btn btn-primary") do
+            link_to("Sign out", destroy_user_session_path, method: :delete, class: "btn btn-primary" )
+          end
+      %>
+  <% end %>
+</div>
+<br/>
+<div>
+  <% unless user_signed_in?  %>
+      <%=
+          link_to_if(current_admin.nil?, "Sign in as admin", new_admin_session_path, class: "btn btn-primary") do
+            link_to("Sign out as admin", destroy_admin_session_path, method: :delete , class: "btn btn-primary")
+          end
+      %>
+  <% end %>
+</div>
+<br/>
+<p class="notice"><%= notice %></p>
+<p class="alert"><%= alert %></p>
+<div class="container" style="padding-top:20px;">
+<%= yield %>
+</div>
+
+
+</body>
+</html>
